@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class ShoppingListContributorDTO {
     private Integer id;
-    private Integer listId;
+    private Integer shoppingListId;
     private String userId;
 }
