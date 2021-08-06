@@ -7,14 +7,14 @@ import com.backend.listack.service.ShoppingListContributorService;
 import com.backend.listack.service.ShoppingListService;
 import com.backend.listack.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
+@Slf4j
 @RequestMapping("/api/shopping-lists")
 public class ShoppingListResource {
     private final ShoppingListContributorService shoppingListContributorService;
@@ -29,5 +29,14 @@ public class ShoppingListResource {
             shoppingListContributorService.save(userShoppingListDTO.getUserId(), savedList.getId());
         }
         return ResponseEntity.ok(savedList);
+    }
+    @PutMapping
+    public ResponseEntity<ShoppingListDTO> update(@RequestBody ShoppingListDTO shoppingListDTO){
+        if(shoppingListDTO.getId() == null){
+            log.error("Could not update a list without an id");
+            return ResponseEntity.badRequest().build();
+        }
+        ShoppingListDTO updatedList = shoppingListService.save(shoppingListDTO);
+        return ResponseEntity.ok(updatedList);
     }
 }
