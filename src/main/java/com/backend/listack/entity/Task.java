@@ -11,7 +11,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private Boolean canceled;
+    private Boolean completed;
     @ManyToOne
-    private ShoppingList shoppingList;
+    private ShoppingList list;
 }

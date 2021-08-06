@@ -6,6 +6,6 @@ import lombok.Data;
 public class TaskDTO {
     private Integer id;
     private String name;
-    private Boolean canceled;
+    private Boolean completed;
     private Integer listId;
 }
