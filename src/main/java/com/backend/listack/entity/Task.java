@@ -13,5 +13,5 @@ public class Task {
     private String name;
     private Boolean canceled;
     @ManyToOne
-    private List list;
+    private ShoppingList shoppingList;
 }

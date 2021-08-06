@@ -6,11 +6,12 @@ import javax.persistence.*;
 
 @Entity
 @Data
-public class List {
+public class ShoppingListContributor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String title;
-    @Embedded
-    private Location location;
+    @ManyToOne
+    private ShoppingList shoppingList;
+    @ManyToOne
+    private User user;
 }
