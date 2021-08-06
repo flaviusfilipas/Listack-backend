@@ -28,4 +28,14 @@ public class TaskResource {
         TaskDTO save = taskService.save(taskDTO);
         return ResponseEntity.ok(save);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id){
+        taskService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+    @DeleteMapping("/completed/{listId}")
+    public ResponseEntity<Void> deleteCompletedTasks(@PathVariable Integer listId){
+        taskService.deleteCompletedTasks(listId);
+        return ResponseEntity.noContent().build();
+    }
 }

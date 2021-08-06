@@ -7,6 +7,8 @@ import com.backend.listack.repository.TaskRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 @AllArgsConstructor
 public class TaskService {
@@ -17,5 +19,13 @@ public class TaskService {
         Task task = taskMapper.toEntity(taskDTO);
         Task savedEntity = taskRepository.save(task);
         return taskMapper.toDTO(savedEntity);
+    }
+
+    public void delete(Integer id) {
+        taskRepository.deleteById(id);
+    }
+    @Transactional
+    public void deleteCompletedTasks(Integer listId) {
+        taskRepository.deleteCompletedTasks(listId);
     }
 }
