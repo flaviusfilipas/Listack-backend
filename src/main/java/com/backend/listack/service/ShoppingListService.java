@@ -18,4 +18,8 @@ public class ShoppingListService {
         ShoppingList savedEntity = shoppingListRepository.save(entity);
         return shoppingListMapper.toDTO(savedEntity);
     }
+
+    public void delete(Integer id){
+        shoppingListRepository.deleteById(id);
+    }
 }

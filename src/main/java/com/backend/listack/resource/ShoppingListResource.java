@@ -39,4 +39,10 @@ public class ShoppingListResource {
         ShoppingListDTO updatedList = shoppingListService.save(shoppingListDTO);
         return ResponseEntity.ok(updatedList);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Integer id){
+        shoppingListService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
