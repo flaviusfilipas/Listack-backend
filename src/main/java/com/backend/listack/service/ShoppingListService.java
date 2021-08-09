@@ -7,6 +7,9 @@ import com.backend.listack.repository.ShoppingListRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
 public class ShoppingListService {
@@ -21,5 +24,12 @@ public class ShoppingListService {
 
     public void delete(Integer id){
         shoppingListRepository.deleteById(id);
+    }
+
+    public List<ShoppingListDTO> findShoppingListByUserId(String id) {
+        return shoppingListRepository.findShoppingListByUserId(id)
+                .stream()
+                .map(shoppingListMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }

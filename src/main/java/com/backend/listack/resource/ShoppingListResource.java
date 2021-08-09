@@ -12,10 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @Slf4j
 @RequestMapping("/api/shopping-lists")
+@CrossOrigin("*")
 public class ShoppingListResource {
     private final ShoppingListContributorService shoppingListContributorService;
     private final ShoppingListService shoppingListService;
@@ -44,5 +47,10 @@ public class ShoppingListResource {
     public ResponseEntity<Void> deleteById(@PathVariable Integer id){
         shoppingListService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<ShoppingListDTO>> getShoppingListByUserId(@PathVariable String id){
+        List<ShoppingListDTO> shoppingListByUserId = shoppingListService.findShoppingListByUserId(id);
+        return ResponseEntity.ok(shoppingListByUserId);
     }
 }
