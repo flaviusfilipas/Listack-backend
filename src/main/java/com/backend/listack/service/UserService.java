@@ -15,6 +15,11 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
+    public UserDTO save(UserDTO userDTO){
+        User entity = userMapper.toEntity(userDTO);
+        User savedUser = userRepository.save(entity);
+        return userMapper.toDTO(savedUser);
+    }
     public UserDTO findById(String id){
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Could not find user with id " + id));
