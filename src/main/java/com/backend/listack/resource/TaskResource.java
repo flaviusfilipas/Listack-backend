@@ -7,10 +7,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @Slf4j
 @RequestMapping("/api/tasks")
+@CrossOrigin("*")
 public class TaskResource {
     private final TaskService taskService;
 
@@ -37,5 +40,10 @@ public class TaskResource {
     public ResponseEntity<Void> deleteCompletedTasks(@PathVariable Integer listId){
         taskService.deleteCompletedTasks(listId);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/list/{id}")
+    public ResponseEntity<List<TaskDTO>> getTasksByListId(@PathVariable Integer id){
+        List<TaskDTO> allByListId = taskService.findAllByListId(id);
+        return ResponseEntity.ok(allByListId);
     }
 }

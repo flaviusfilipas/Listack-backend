@@ -7,9 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Integer> {
     @Modifying
     @Query("DELETE FROM Task t where t.list.id = :listId and t.completed = true")
     void deleteCompletedTasks(@Param("listId")Integer listId);
+
+    List<Task> findByListId(Integer id);
 }
