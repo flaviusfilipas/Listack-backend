@@ -19,4 +19,10 @@ public class UserResource {
         return ResponseEntity.ok(savedUser);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> getById(@PathVariable String id){
+        UserDTO user = userService.getById(id);
+        return ResponseEntity.ok(user);
+    }
+
 }

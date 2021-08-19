@@ -25,4 +25,11 @@ public class UserService {
                 .orElseThrow(() -> new EntityNotFoundException("Could not find user with id " + id));
         return userMapper.toDTO(user);
     }
+
+    public UserDTO getById(String id) {
+
+        User userById = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Could not found user with id" + id));
+        return userMapper.toDTO(userById);
+    }
 }
