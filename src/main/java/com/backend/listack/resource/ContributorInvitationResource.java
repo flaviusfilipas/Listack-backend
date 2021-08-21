@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @Slf4j
@@ -39,5 +41,10 @@ public class ContributorInvitationResource {
     public ResponseEntity<ContributorInvitationDTO> findById(@PathVariable Integer id){
         ContributorInvitationDTO contributorInvitation = contributorInvitationService.findById(id);
         return ResponseEntity.ok(contributorInvitation);
+    }
+    @GetMapping("/list/{id}")
+    public ResponseEntity<List<ContributorInvitationDTO>> findAllByListId(@PathVariable Integer id){
+        List<ContributorInvitationDTO> allByListId = contributorInvitationService.findAllByListId(id);
+        return ResponseEntity.ok(allByListId);
     }
 }

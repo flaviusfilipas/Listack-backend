@@ -9,6 +9,9 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @Data
 @Service
@@ -24,7 +27,7 @@ public class ContributorInvitationService {
         return contributorInvitationMapper.toDto(savedEntity);
     }
 
-    public ContributorInvitationDTO findById(Integer id){
+    public ContributorInvitationDTO findById(Integer id) {
         ContributorInvitation contributorInvitation = contributorInvitationRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Could not found contributor invitation with id " + id));
         return contributorInvitationMapper.toDto(contributorInvitation);
@@ -32,5 +35,12 @@ public class ContributorInvitationService {
 
     public void delete(Integer id) {
         contributorInvitationRepository.deleteById(id);
+    }
+
+    public List<ContributorInvitationDTO> findAllByListId(Integer id) {
+        return contributorInvitationRepository.findAllByShoppingListId(id)
+                .stream()
+                .map(contributorInvitationMapper::toDto)
+                .collect(toList());
     }
 }
