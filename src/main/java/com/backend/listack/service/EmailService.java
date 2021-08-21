@@ -15,8 +15,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
-
 @Service
 @AllArgsConstructor
 public class EmailService {
@@ -25,20 +23,16 @@ public class EmailService {
     private final UserService userService;
     private final ContributorInvitationService contributorInvitationService;
 
-    public void sendContributorConfirmationEmail(String inviterName, Integer listId) {
-        List<ContributorInvitationDTO> contributorInvitations = contributorInvitationService.findAllByListId(listId)
-                .stream()
-                .filter(contributorInvitationDTO -> !contributorInvitationDTO.getSentEmail())
-                .collect(toList());
-        for (ContributorInvitationDTO contributorInvitationDTO : contributorInvitations) {
+    public void sendContributorConfirmationEmail(String inviterName, List<ContributorInvitationDTO> pendingInvitations) {
+        for (ContributorInvitationDTO contributorInvitationDTO : pendingInvitations) {
             String email=contributorInvitationDTO.getEmail();
             UserDTO user = userService.findByEmail(email);
             if (user != null) {
                 sendConfirmationEmail(email, user.getId(), inviterName,
-                        listId);
+                        contributorInvitationDTO.getShoppingListId());
             } else {
                 sendConfirmationEmailForUserWithNoAccount(email, inviterName,
-                        listId);
+                        contributorInvitationDTO.getShoppingListId());
             }
             contributorInvitationDTO.setSentEmail(true);
             contributorInvitationService.save(contributorInvitationDTO);
