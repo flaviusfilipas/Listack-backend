@@ -7,4 +7,5 @@ public class ShoppingListContributorDTO {
     private Integer id;
     private Integer shoppingListId;
     private String userId;
+    private String email;
 }
