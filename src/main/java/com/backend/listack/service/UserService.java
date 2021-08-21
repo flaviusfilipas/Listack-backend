@@ -15,12 +15,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public UserDTO save(UserDTO userDTO){
+    public UserDTO save(UserDTO userDTO) {
         User entity = userMapper.toEntity(userDTO);
         User savedUser = userRepository.save(entity);
         return userMapper.toDTO(savedUser);
     }
-    public UserDTO findById(String id){
+
+    public UserDTO findById(String id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Could not find user with id " + id));
         return userMapper.toDTO(user);
@@ -31,5 +32,10 @@ public class UserService {
         User userById = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Could not found user with id" + id));
         return userMapper.toDTO(userById);
+    }
+
+    public UserDTO findByEmail(String email){
+        User user = userRepository.findByEmail(email);
+        return userMapper.toDTO(user);
     }
 }

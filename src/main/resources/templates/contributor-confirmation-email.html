@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+</head>
+<body>
+<p>Hi,</p>
+<p th:text=" ${inviterName} + ' would like to share a list with your. ' "></p>
+<span>
+    Click
+    <a th:href="'http://localhost:8100/add-contributor?listId=' + ${listId} + '&userId=' + ${userId}"> here </a>
+    to confirm.
+</span>
+<p>Regards,</p>
+<p>Listack Team</p>
+</body>
+</html>
