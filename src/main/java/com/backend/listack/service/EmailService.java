@@ -58,11 +58,12 @@ public class EmailService {
         mimeMessageHelper.setFrom("listack@localhost.com");
         mimeMessageHelper.setSubject("Join shared shopping list");
         mimeMessageHelper.setTo(recipientEmail);
-        mimeMessageHelper.setText(getEmailType(emailType, listId, userId, inviterName), true);
+        mimeMessageHelper.setText(getEmailType(emailType, listId, userId, inviterName,recipientEmail), true);
         return mimeMessage;
     }
 
-    private String getEmailType(EmailTemplateType emailTemplateType, Integer listId, String userId, String inviterName) {
+    private String getEmailType(EmailTemplateType emailTemplateType, Integer listId,
+                                String userId, String inviterName, String recipientEmail) {
         final Context context = new Context();
         switch (emailTemplateType) {
             case CONFIRMATION_EMAIL_WITH_ACCOUNT:
@@ -73,6 +74,7 @@ public class EmailService {
             case CONFIRMATION_EMAIL_WITHOUT_ACCOUNT:
                 context.setVariable("listId", listId);
                 context.setVariable("inviterName", inviterName);
+                context.setVariable("recipientEmail", recipientEmail);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + emailTemplateType);
