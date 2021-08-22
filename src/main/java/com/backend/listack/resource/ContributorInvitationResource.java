@@ -18,14 +18,22 @@ public class ContributorInvitationResource {
     private final ContributorInvitationService contributorInvitationService;
 
     @PostMapping
-    public ResponseEntity<ContributorInvitationDTO> save(@RequestBody ContributorInvitationDTO contributorInvitationDTO){
+    public ResponseEntity<ContributorInvitationDTO> save(@RequestBody ContributorInvitationDTO contributorInvitationDTO) {
         ContributorInvitationDTO savedInvitation = contributorInvitationService.save(contributorInvitationDTO);
         return ResponseEntity.ok(savedInvitation);
     }
 
+    @PutMapping("/approve")
+    public ResponseEntity<ContributorInvitationDTO> approveContributorInvitation(@RequestParam String userId,
+                                                                                 @RequestParam Integer listId) {
+        ContributorInvitationDTO updatedInvitation = contributorInvitationService.approveInvitation(userId, listId);
+        return ResponseEntity.ok(updatedInvitation);
+
+    }
+
     @PutMapping
-    public ResponseEntity<ContributorInvitationDTO> update(@RequestBody ContributorInvitationDTO contributorInvitationDTO){
-        if(contributorInvitationDTO.getId() == null) {
+    public ResponseEntity<ContributorInvitationDTO> update(@RequestBody ContributorInvitationDTO contributorInvitationDTO) {
+        if (contributorInvitationDTO.getId() == null) {
             throw new IllegalArgumentException("Could not update an entity without an id");
         }
         ContributorInvitationDTO savedInvitation = contributorInvitationService.save(contributorInvitationDTO);
@@ -33,18 +41,20 @@ public class ContributorInvitationResource {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Integer id){
+    public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
         contributorInvitationService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<ContributorInvitationDTO> findById(@PathVariable Integer id){
+    public ResponseEntity<ContributorInvitationDTO> findById(@PathVariable Integer id) {
         ContributorInvitationDTO contributorInvitation = contributorInvitationService.findById(id);
         return ResponseEntity.ok(contributorInvitation);
     }
-    @GetMapping("/list/{id}")
-    public ResponseEntity<List<ContributorInvitationDTO>> findAllByListId(@PathVariable Integer id){
-        List<ContributorInvitationDTO> allByListId = contributorInvitationService.findAllByListId(id);
+
+    @GetMapping("/pending/list/{id}")
+    public ResponseEntity<List<ContributorInvitationDTO>> findAllPendingInvitationsByListId(@PathVariable Integer id) {
+        List<ContributorInvitationDTO> allByListId = contributorInvitationService.findAllPendingInvitationsByListId(id);
         return ResponseEntity.ok(allByListId);
     }
 }

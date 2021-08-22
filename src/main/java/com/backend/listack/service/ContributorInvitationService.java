@@ -1,7 +1,9 @@
 package com.backend.listack.service;
 
 import com.backend.listack.dto.ContributorInvitationDTO;
+import com.backend.listack.dto.UserDTO;
 import com.backend.listack.entity.ContributorInvitation;
+import com.backend.listack.enums.InvitationStatus;
 import com.backend.listack.mapper.ContributorInvitationMapper;
 import com.backend.listack.repository.ContributorInvitationRepository;
 import lombok.AllArgsConstructor;
@@ -19,7 +21,7 @@ import static java.util.stream.Collectors.toList;
 public class ContributorInvitationService {
     private final ContributorInvitationRepository contributorInvitationRepository;
     private final ContributorInvitationMapper contributorInvitationMapper;
-
+    private final UserService userService;
 
     public ContributorInvitationDTO save(ContributorInvitationDTO contributorInvitationDTO) {
         ContributorInvitation entity = contributorInvitationMapper.toEntity(contributorInvitationDTO);
@@ -37,10 +39,18 @@ public class ContributorInvitationService {
         contributorInvitationRepository.deleteById(id);
     }
 
-    public List<ContributorInvitationDTO> findAllByListId(Integer id) {
-        return contributorInvitationRepository.findAllByShoppingListId(id)
+    public List<ContributorInvitationDTO> findAllPendingInvitationsByListId(Integer id) {
+        return contributorInvitationRepository.findAllPendingInvitationsByListId(id)
                 .stream()
                 .map(contributorInvitationMapper::toDto)
                 .collect(toList());
+    }
+
+    public ContributorInvitationDTO approveInvitation(String userId, Integer listId) {
+        UserDTO userDTO = userService.findById(userId);
+        ContributorInvitation invitation = contributorInvitationRepository.findByEmailAndShoppingListId(userDTO.getEmail(), listId);
+        invitation.setStatus(InvitationStatus.APPROVED);
+        ContributorInvitation savedInvitation = contributorInvitationRepository.save(invitation);
+        return contributorInvitationMapper.toDto(savedInvitation);
     }
 }
