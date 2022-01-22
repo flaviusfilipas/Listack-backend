@@ -25,7 +25,7 @@ public class TaskResource {
     @PutMapping
     public ResponseEntity<TaskDTO> update(@RequestBody TaskDTO taskDTO){
         if(taskDTO.getId() == null){
-            log.error("Could not updated a task without an id");
+            log.error("Could not update a task without an id");
             return ResponseEntity.badRequest().build();
         }
         TaskDTO save = taskService.save(taskDTO);

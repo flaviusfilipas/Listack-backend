@@ -3,19 +3,17 @@ package com.backend.listack.service;
 import com.backend.listack.dto.ContributorInvitationDTO;
 import com.backend.listack.dto.UserDTO;
 import com.backend.listack.entity.ContributorInvitation;
-import com.backend.listack.enums.InvitationStatus;
 import com.backend.listack.mapper.ContributorInvitationMapper;
 import com.backend.listack.repository.ContributorInvitationRepository;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
+import static com.backend.listack.enums.InvitationStatus.APPROVED;
 import static java.util.stream.Collectors.toList;
 
-@Data
 @Service
 @AllArgsConstructor
 public class ContributorInvitationService {
@@ -49,7 +47,7 @@ public class ContributorInvitationService {
     public ContributorInvitationDTO approveInvitation(String userId, Integer listId) {
         UserDTO userDTO = userService.findById(userId);
         ContributorInvitation invitation = contributorInvitationRepository.findByEmailAndShoppingListId(userDTO.getEmail(), listId);
-        invitation.setStatus(InvitationStatus.APPROVED);
+        invitation.setStatus(APPROVED);
         ContributorInvitation savedInvitation = contributorInvitationRepository.save(invitation);
         return contributorInvitationMapper.toDto(savedInvitation);
     }

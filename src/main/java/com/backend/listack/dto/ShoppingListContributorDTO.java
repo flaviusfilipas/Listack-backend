@@ -1,11 +1,18 @@
 package com.backend.listack.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
 public class ShoppingListContributorDTO {
+    @Getter
     private Integer id;
+    @Getter
+    @Setter
     private Integer shoppingListId;
+    @Getter
+    @Setter
     private String userId;
+    @Getter
+    @Setter
     private String email;
 }
